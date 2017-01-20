@@ -5,7 +5,7 @@ def params_setup(cmdline=None):
   parser.add_argument('--mode', type=str, required=True, help='work mode: train/test/chat')
   
   # path ctrl
-  parser.add_argument('--model_name', type=str, default='movie_subtitles_en', help='model name, affects data, model, result save path')
+  parser.add_argument('--model_name', type=str, default='fbdata', help='model name, affects data, model, result save path')
   parser.add_argument('--scope_name', type=str, help='separate namespace, for multi-models working together')
   parser.add_argument('--work_root', type=str, default='works', help='root dir for data, model, result save path')
 

@@ -2,6 +2,9 @@ sftp-config.json
 *.pyc
 works/*
 !works/lyrics_ptt
+!works/fbdata
 go_*
 *.yaml
 ssl/*
+*.in
+.idea

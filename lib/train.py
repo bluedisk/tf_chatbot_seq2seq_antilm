@@ -27,10 +27,40 @@ def setup_workpath(workspace):
         f_dev.write(line)
         n += 1
 
+'''
+For FB data_utils
+'''
+def setup_workpath_fb(workspace):
+  for p in ['data', 'nn_models', 'results']:
+    wp = "%s/%s" % (workspace, p)
+    if not os.path.exists(wp): os.mkdir(wp)
+
+  data_dir = "%s/data" % (workspace)
+  # training data
+  if not os.path.exists("%s/chat.in" % data_dir):
+    f_zip   = gzip.open("%s/train/tf.txt.gz" % data_dir, 'rt')
+    f_train = open("%s/chat.in" % data_dir, 'w')
+    f_dev   = open("%s/chat_test.in" % data_dir, 'w')
+    n = 0
+    for line in f_zip:
+        # line = line.decode('utf-8') FIXME: encoding?
+        # http://stackoverflow.com/questions/28583565/str-object-has-no-attribute-decode-python-3-error
+        values = line.split("\t")
+        for i in range(3, len(values), 2):
+            q = values[1]
+            a  = values[i]
+
+            f_train.write(q)
+            f_train.write(a)
+
+            if n < 10000:
+                f_dev.write(q)
+                f_dev.write(a)
+                n += 1
 
 def train(args):
     print("[%s] Preparing dialog data in %s" % (args.model_name, args.data_dir))
-    setup_workpath(workspace=args.workspace)
+    setup_workpath_fb(workspace=args.workspace)
     train_data, dev_data, _ = data_utils.prepare_dialog_data(args.data_dir, args.vocab_size)
 
     if args.reinforce_learn:
